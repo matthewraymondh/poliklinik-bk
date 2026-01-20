@@ -1,0 +1,74 @@
+<x-layouts.app title="Edit Poli">
+    <!-- Content Header -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Edit Poli</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('polis.index') }}">Poli</a></li>
+                        <li class="breadcrumb-item active">Edit</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="card card-warning">
+                <div class="card-header">
+                    <h3 class="card-title">Form Edit Poli</h3>
+                </div>
+                <form action="{{ route('polis.update', $poli) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="card-body">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        <div class="form-group">
+                            <label for="nama_poli">Nama Poli <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control @error('nama_poli') is-invalid @enderror" 
+                                   id="nama_poli" name="nama_poli" 
+                                   value="{{ old('nama_poli', $poli->nama_poli) }}" 
+                                   placeholder="Masukkan nama poli" required>
+                            @error('nama_poli')
+                                <span class="invalid-feedback">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="keterangan">Keterangan</label>
+                            <textarea class="form-control @error('keterangan') is-invalid @enderror" 
+                                      id="keterangan" name="keterangan" rows="3" 
+                                      placeholder="Masukkan keterangan (opsional)">{{ old('keterangan', $poli->keterangan) }}</textarea>
+                            @error('keterangan')
+                                <span class="invalid-feedback">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-save"></i> Update
+                        </button>
+                        <a href="{{ route('polis.index') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Kembali
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</x-layouts.app>
